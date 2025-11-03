@@ -2,18 +2,21 @@
 
 namespace GildedRose.Services
 {
-    internal class ConjuredRule : IUpdateRule
+    public class ConjuredRule : IUpdateRule
     {
         public void UpdateItem(Item item)
         {
-            // SellIn is handled by the caller (GildedRoseOld)
+            // Age one day
+            item.SellIn--;
+
+            // Conjured items degrade twice as fast as normal: -2 per day total
             if (item.Quality > 0)
             {
-                item.Quality--;
-            }
-            if (item.SellIn < 0 && item.Quality > 0)
-            {
-                item.Quality--;
+                item.Quality -= 2;
+                if (item.Quality < 0)
+                {
+                    item.Quality = 0;
+                }
             }
         }
     }

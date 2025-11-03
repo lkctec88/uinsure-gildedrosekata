@@ -7,6 +7,7 @@ namespace GildedRose.Services
     {
         public void UpdateItem(Item item)
         {
+            item.SellIn--;
             if (item.Quality < 50)
             {
                 item.Quality++;
