@@ -9,14 +9,11 @@ namespace GildedRose.Services
             // Age one day
             item.SellIn--;
 
-            // Conjured items degrade twice as fast as normal: -2 per day total
-            if (item.Quality > 0)
+            // Conjured items degrade twice as fast as normal
+            QualityHelper.Decrease(item, 2);
+            if (item.SellIn < 0)
             {
-                item.Quality -= 2;
-                if (item.Quality < 0)
-                {
-                    item.Quality = 0;
-                }
+                QualityHelper.Decrease(item, 2);
             }
         }
     }

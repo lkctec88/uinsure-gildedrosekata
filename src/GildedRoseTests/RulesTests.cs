@@ -122,12 +122,22 @@ public class RulesTests
         Assert.Equal(80, item.Quality);
     }
 
+    // Conjured
     [Fact]
-    public void Conjured_AfterSellDate_AsNormalDoubleDecay()
+    public void Conjured_BeforeSellDate_TwiceAsFast()
+    {
+        var item = Make("Conjured Mana Cake", 3, 6);
+        new ConjuredRule().UpdateItem(item);
+        Assert.Equal(2, item.SellIn);
+        Assert.Equal(4, item.Quality);
+    }
+
+    [Fact]
+    public void Conjured_AfterSellDate_FourPointsTotal()
     {
         var item = Make("Conjured Mana Cake", 0, 6);
         new ConjuredRule().UpdateItem(item);
         Assert.Equal(-1, item.SellIn);
-        Assert.Equal(4, item.Quality);
+        Assert.Equal(2, item.Quality);
     }
 }

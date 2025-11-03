@@ -31,5 +31,8 @@ public class GildedRoseServiceTests
         // Sulfuras unchanged
         Assert.Equal(0, items[3].SellIn);
         Assert.Equal(80, items[3].Quality);
+
+        // Conjured twice as fast
+        Assert.Equal(4, items[5].Quality);
     }
 }

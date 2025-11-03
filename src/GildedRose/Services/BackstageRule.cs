@@ -8,19 +8,20 @@ namespace GildedRose.Services
         public void UpdateItem(Item item)
         {
             item.SellIn--;
-            if (item.Quality < 50)
+
+            if (item.SellIn >= 0)
             {
-                item.Quality++;
-                if (item.SellIn < 10 && item.Quality < 50)
+                QualityHelper.Increase(item, 1);
+                if (item.SellIn < 10)
                 {
-                    item.Quality++;
+                    QualityHelper.Increase(item, 1);
                 }
-                if (item.SellIn < 5 && item.Quality < 50)
+                if (item.SellIn < 5)
                 {
-                    item.Quality++;
+                    QualityHelper.Increase(item, 1);
                 }
             }
-            if (item.SellIn < 0)
+            else
             {
                 item.Quality = 0;
             }

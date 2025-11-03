@@ -9,14 +9,19 @@ namespace GildedRose.Services
 {
     public static class RuleFactory
     {
-        public static IUpdateRule For(Item item) =>
-        item.Name switch
+        private static readonly NormalRule Normal = new();
+        private static readonly AgedBrieRule Brie = new();
+        private static readonly BackstageRule Backstage = new();
+        private static readonly SulfurasRule Sulfuras = new();
+        private static readonly ConjuredRule Conjured = new();
+
+        public static IUpdateRule For(Item item) => ItemClassifier.Classify(item) switch
         {
-            var n when n == ItemNames.Sulfuras => new SulfurasRule(),
-            var n when n == ItemNames.AgedBrie => new AgedBrieRule(),
-            var n when n.StartsWith(ItemNames.Backstage) => new BackstageRule(),
-            var n when n.StartsWith(ItemNames.Conjured) => new ConjuredRule(),
-            _ => new NormalRule()
+            ItemType.Sulfuras => Sulfuras,
+            ItemType.AgedBrie => Brie,
+            ItemType.Backstage => Backstage,
+            ItemType.Conjured => Conjured,
+            _ => Normal
         };
     }
 }

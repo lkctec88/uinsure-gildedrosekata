@@ -7,11 +7,6 @@ public class RuleFactoryTests
 {
     private static IUpdateRule Resolve(string name) => RuleFactory.For(new Item { Name = name, SellIn = 0, Quality = 0 });
 
-    [Fact]
-    public void Maps_Sulfuras_To_SulfurasRule()
-    {
-        Assert.IsType<SulfurasRule>(Resolve(ItemNames.Sulfuras));
-    }
 
     [Fact]
     public void Maps_AgedBrie_To_AgedBrieRule()
@@ -25,6 +20,14 @@ public class RuleFactoryTests
     public void Maps_BackstagePrefix_To_BackstageRule(string name)
     {
         Assert.IsType<BackstageRule>(Resolve(name));
+    }
+
+    [Theory]
+    [InlineData("Sulfuras, Hand of Ragnaros")]
+    [InlineData("Sulfuras, Toes of Ragnaros")]
+    public void Maps_Sulfuras_To_SulfurasRule(string name)
+    {
+        Assert.IsType<SulfurasRule>(Resolve(name));
     }
 
     [Theory]

@@ -11,14 +11,14 @@ namespace GildedRose.Services
     {
         public void UpdateItem(Item item)
         {
+            // Age one day
             item.SellIn--;
-            if (item.Quality > 0)
+
+            // Decrease quality by 1, then again after sell date
+            QualityHelper.Decrease(item, 1);
+            if (item.SellIn < 0)
             {
-                item.Quality--;
-            }
-            if(item.SellIn < 0 && item.Quality > 0)
-            {
-                item.Quality--;
+                QualityHelper.Decrease(item, 1);
             }
         }
     }
