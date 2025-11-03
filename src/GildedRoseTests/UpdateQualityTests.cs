@@ -1,4 +1,5 @@
-using GildedRoseKata;
+using GildedRose;
+using GildedRose.Models;
 
 namespace GildedRoseTests;
 
@@ -9,8 +10,8 @@ public class UpdateQualityTests
     private static Item RunOnce(Item item)
     {
         List<Item> items = [ item ];
-        var app = new GildedRose(items);
-        app.UpdateQuality();
+        var app = new GildedRoseApp();
+        app.UpdateQuality(items);
         return items[0];
     }
 

@@ -1,4 +1,8 @@
-﻿namespace GildedRoseKata;
+﻿using GildedRose;
+using GildedRose.Models;
+using GildedRose.Services;
+
+namespace GildedRoseKata;
 
 public class Program
 {
@@ -38,7 +42,7 @@ public class Program
             new Item { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
         ];
 
-        var app = new GildedRose(Items);
+        var app = new GildedRoseApp();
 
         for (var i = 0; i < 31; i++)
         {
@@ -46,10 +50,10 @@ public class Program
             Console.WriteLine("name, sellIn, quality");
             for (var j = 0; j < Items.Count; j++)
             {
-                System.Console.WriteLine(Items[j].Name + ", " + Items[j].SellIn + ", " + Items[j].Quality);
+                Console.WriteLine(Items[j].Name + ", " + Items[j].SellIn + ", " + Items[j].Quality);
             }
             Console.WriteLine("");
-            app.UpdateQuality();
+            app.UpdateQuality(Items);
         }
     }
 }

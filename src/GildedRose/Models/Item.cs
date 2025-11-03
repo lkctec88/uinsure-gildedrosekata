@@ -1,4 +1,4 @@
-﻿namespace GildedRoseKata;
+﻿namespace GildedRose.Models;
 
 public class Item
 {

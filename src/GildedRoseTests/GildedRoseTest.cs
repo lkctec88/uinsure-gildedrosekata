@@ -1,4 +1,6 @@
-﻿using GildedRoseKata;
+﻿
+using GildedRose;
+using GildedRose.Models;
 
 namespace GildedRoseTests;
 
@@ -8,8 +10,8 @@ public class GildedRoseTest
     public void Foo()
     {
         List<Item> items = [ new Item { Name = "foo", SellIn = 0, Quality = 0 } ];
-        GildedRose app = new(items);
-        app.UpdateQuality();
+        GildedRoseApp app = new();
+        app.UpdateQuality(items);
         Assert.Equal("foo", items[0].Name);
     }
 }
