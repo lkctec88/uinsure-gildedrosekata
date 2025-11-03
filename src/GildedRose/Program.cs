@@ -1,5 +1,7 @@
 ﻿using GildedRose.Models;
 using GildedRose.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace GildedRoseKata;
 
@@ -7,52 +9,24 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        var builder = Host.CreateApplicationBuilder(args);
+        builder.Services.AddSingleton<IGildedRoseService, GildedRoseService>();
+        builder.Services.AddSingleton<IItemSource, SeedItemSource>();
+        builder.Services.AddSingleton<IInventoryPrinter, ConsoleInventoryPrinter>();
+        using var host = builder.Build();
+
+        var service = host.Services.GetRequiredService<IGildedRoseService>();
+        var source = host.Services.GetRequiredService<IItemSource>();
+        var printer = host.Services.GetRequiredService<IInventoryPrinter>();
+
         Console.WriteLine("OMGHAI!");
 
-        List<Item> Items =
-        [
-            new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
-            new Item { Name = "Aged Brie", SellIn = 2, Quality = 0 },
-            new Item { Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7 },
-            new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 },
-            new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = -1, Quality = 80 },
-            new Item
-            {
-                Name = "Backstage passes to a TAFKAL80ETC concert",
-                SellIn = 15,
-                Quality = 20
-            },
-
-            new Item
-            {
-                Name = "Backstage passes to a TAFKAL80ETC concert",
-                SellIn = 10,
-                Quality = 49
-            },
-
-            new Item
-            {
-                Name = "Backstage passes to a TAFKAL80ETC concert",
-                SellIn = 5,
-                Quality = 49
-            },
-            // this conjured item does not work properly yet
-
-            new Item { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
-        ];
-
-        IGildedRoseService app = new GildedRoseService();
+        var items = source.GetInitialItems();
 
         for (var i = 0; i < 31; i++)
         {
-            Console.WriteLine("-------- day " + i + " --------");
-            Console.WriteLine("name, sellIn, quality");
-            for (var j = 0; j < Items.Count; j++)
-            {
-                Console.WriteLine(Items[j]);
-            }
-            Console.WriteLine("");
-            app.UpdateQuality(Items);
+            printer.Print(items, Console.Out, i);
+            service.UpdateQuality(items);
         }
     }
 }
